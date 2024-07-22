@@ -1,0 +1,44 @@
+const puppeteer = require('puppeteer');
+
+async function buyBonk() {
+    const browser = await puppeteer.launch({ headless: false }); // Launch a non-headless browser for visibility (you can set headless: true for background operation)
+    const page = await browser.newPage();
+    
+    try {
+        // Navigate to Twitter
+        await page.goto('https://twitter.com', { waitUntil: 'networkidle0' });
+
+        // Assuming you want to search for tweets related to Bonk
+        await page.type('input[data-testid="SearchBox_Search_Input"]', 'Bonk crypto');
+
+        await page.waitForTimeout(1000); // Wait for suggestions to appear
+        await page.keyboard.press('Enter');
+        await page.waitForNavigation({ waitUntil: 'networkidle0' });
+
+        // Click on a tweet or link that leads to more information about Bonk
+
+        // Navigate to Raydium DEX (assuming the link is known)
+        await page.goto('https://raydium.io/', { waitUntil: 'networkidle0' });
+
+        // Example: Assuming Bonk token is listed on Raydium, find and click on the trading pair or use the interface to buy Bonk
+        // Replace with actual steps specific to Raydium DEX
+
+        // Example: Clicking on a trading pair to navigate to trading page
+        await page.click('a[href="/#/trade/BNK_USDC"]'); // Replace with actual trading pair URL
+
+        // Example: Assuming you want to buy a specific amount of Bonk
+        await page.type('#inputAmount', '1'); // Replace with desired amount
+        await page.click('#swap-button'); // Example: Click on swap button to execute trade
+
+        // Example: Handle confirmation dialogs, wallet authentication, etc. (specific to Raydium)
+
+        // Close browser after completing the transaction
+        await browser.close();
+    } catch (error) {
+        console.error('Error:', error);
+        await browser.close(); // Ensure browser is closed in case of errors
+    }
+}
+
+// Call the function to start the process
+buyBonk();
